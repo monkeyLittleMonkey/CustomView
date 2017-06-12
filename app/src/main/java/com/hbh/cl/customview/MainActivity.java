@@ -5,34 +5,23 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 
-import com.hbh.cl.customview.View.FalseView;
-import com.hbh.cl.customview.View.PieView;
 import com.hbh.cl.customview.View.ClockView;
-import com.hbh.cl.customview.model.PieData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private LinearLayout pieview_layout;
-    private LinearLayout falseView_layout;
-    private LinearLayout speedView_layout;
-    private List<PieData> lists = new ArrayList<>();
+    private LinearLayout clockView_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        pieview_layout = (LinearLayout) findViewById(R.id.pieview_layout);
-        falseView_layout = (LinearLayout) findViewById(R.id.falseView);
-        speedView_layout = (LinearLayout) findViewById(R.id.speedView);
+        clockView_layout = (LinearLayout) findViewById(R.id.clockView);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -43,40 +32,12 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-//        drawPieView();//饼图
-//        drawFalseView();//错视图
-        drawCircle();//圆
+        drawCircle();
     }
 
     public void drawCircle(){
         ClockView clockView = new ClockView(this);
-        speedView_layout.addView(clockView);
-    }
-
-    /**
-     * 绘制错视图
-     */
-    public void drawFalseView(){
-        FalseView falseView = new FalseView(this);
-        falseView_layout.addView(falseView);
-    }
-
-    /**
-     * 绘制饼图
-     */
-    public void drawPieView(){
-        for (int i = 0; i < 5; i++) {
-            PieData p = new PieData();
-            p.setName("name"+i);
-            p.setValue((i+1) * 3);
-            lists.add(p);
-        }
-
-        PieView pv = new PieView(this);
-        pv.setStartAngle(0);
-        pv.setData(lists);
-
-        pieview_layout.addView(pv);
+        clockView_layout.addView(clockView);
     }
 
     @Override
