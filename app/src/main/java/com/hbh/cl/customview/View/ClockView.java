@@ -89,7 +89,6 @@ public class ClockView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         mWidth = w;
         mHeight = h;
-
         mLineLeft = mWidth/2 - mLineWidth/2;
         mLineRight = mWidth/2 + mLineWidth/2;
         mLineTop = mCircleWidth;
@@ -97,7 +96,19 @@ public class ClockView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        setMeasuredDimension(onMeasureSpec(widthMeasureSpec), onMeasureSpec(heightMeasureSpec));
+    }
+
+    private int onMeasureSpec(int measureSpec){
+        int resultSpec = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics());
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+        if (specMode == MeasureSpec.AT_MOST) {
+            resultSpec = Math.min(resultSpec, specSize);
+        } else if (specMode == MeasureSpec.EXACTLY) {
+            resultSpec = specSize;
+        }
+        return resultSpec;
     }
 
     @Override
@@ -178,7 +189,7 @@ public class ClockView extends View {
         mPointPaint.setColor(Color.rgb(222,184,135));
         mPointPaint.setStrokeWidth(12.0f);
         canvas.save();
-        canvas.rotate(mHour * 30, mWidth/2, mWidth/2);
+        canvas.rotate(mHour * 30 + mMinute * 6 / 12, mWidth/2, mWidth/2);
         canvas.drawLine(mWidth/2, mHeight/2, mWidth/2 , mWidth/4, mPointPaint);
         canvas.drawLine(mWidth/2, mHeight/2, mWidth/2 , mWidth/2 + mWidth/10, mPointPaint);
         canvas.restore();
