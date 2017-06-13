@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PaintFlagsDrawFilter;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -56,7 +55,6 @@ public class ClockView extends View {
         //初始化表盘画笔
         mCirclePaint = new Paint();//初始化画笔
         mCirclePaint.setAntiAlias(true);//抗锯齿
-        mCirclePaint.setFilterBitmap(true);
         mCirclePaint.setStyle(Paint.Style.FILL_AND_STROKE);//空心画笔
         mCirclePaint.setStrokeWidth(10.0f);//空心画笔宽度
         mCirclePaint.setColor(Color.rgb(160,82,45));//画笔颜色
@@ -64,14 +62,12 @@ public class ClockView extends View {
         //初始化刻度画笔
         mLinePaint = new Paint();
         mLinePaint.setAntiAlias(true);
-        mLinePaint.setFilterBitmap(true);
         mLinePaint.setStyle(Paint.Style.FILL);
         mLinePaint.setColor(Color.WHITE);
 
         //初始化数字画笔
         mTextPaint = new Paint();
         mTextPaint.setAntiAlias(true);
-        mTextPaint.setFilterBitmap(true);
         mTextPaint.setStyle(Paint.Style.FILL);
         mTextPaint.setColor(Color.WHITE);
         mTextPaint.setStrokeWidth(1.0f);
@@ -138,7 +134,7 @@ public class ClockView extends View {
             if (i % 30 == 0) {
                 mLineBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());
             }else{
-                mLineBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
+                mLineBottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics());
             }
 
             if (i % 6 == 0) {
@@ -147,13 +143,6 @@ public class ClockView extends View {
                 canvas.drawRect(mLineLeft, mLineTop, mLineRight, mLineBottom, mLinePaint);
                 canvas.restore();
             }
-
-//            if(i != 0 && i % 30 == 0){
-//                canvas.save();
-//                canvas.rotate(i, mWidth/2, mHeight/2);
-//                canvas.drawText(i/30 + "", mLineLeft, mLineBottom + 20, mTextPaint);
-//                canvas.restore();
-//            }
         }
     }
 
@@ -205,7 +194,6 @@ public class ClockView extends View {
         mPointPaint.setColor(Color.WHITE);
         mPointPaint.setStrokeWidth(6.0f);
         canvas.save();
-        canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG));
         canvas.rotate(mSecond * 6, mWidth/2, mWidth/2);
         canvas.drawLine(mWidth/2, mHeight/2, mWidth/2 , mHeight/8, mPointPaint);
         canvas.drawLine(mWidth/2, mHeight/2, mWidth/2 , mWidth/2 + mWidth/10, mPointPaint);
