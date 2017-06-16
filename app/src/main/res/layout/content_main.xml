@@ -8,12 +8,31 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.hbh.cl.customview.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    android:background="@color/colorPrimary">
 
     <LinearLayout
         android:id="@+id/clockView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/speedView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/greadView"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
         android:orientation="horizontal"
         android:layout_centerInParent="true">
     </LinearLayout>

@@ -11,10 +11,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.hbh.cl.customview.View.ClockView;
+import com.hbh.cl.customview.View.PanelView;
+import com.hbh.cl.customview.View.SpeedView;
 
 public class MainActivity extends AppCompatActivity {
 
     private LinearLayout clockView_layout;
+    private LinearLayout speedView_layout;
+    private LinearLayout greadView_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         clockView_layout = (LinearLayout) findViewById(R.id.clockView);
+        speedView_layout = (LinearLayout) findViewById(R.id.speedView);
+        greadView_layout = (LinearLayout) findViewById(R.id.greadView);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -32,9 +38,24 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        drawCircle();
+//        drawCircle();//绘制表盘
+//        drawSpeedView();
+        drawPanelView();
     }
 
+    public void drawPanelView(){
+        PanelView panelView = new PanelView(this);
+        greadView_layout.addView(panelView);
+    }
+
+    public void drawSpeedView(){
+        SpeedView speedView = new SpeedView(this);
+        speedView_layout.addView(speedView);
+    }
+
+    /**
+     * 绘制表盘
+     */
     public void drawCircle(){
         ClockView clockView = new ClockView(this);
         clockView_layout.addView(clockView);
