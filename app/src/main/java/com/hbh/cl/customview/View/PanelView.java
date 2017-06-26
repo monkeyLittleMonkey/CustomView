@@ -32,7 +32,7 @@ public class PanelView extends View {
     private float progressSweepAngle;
     private ValueAnimator progressAnimator;
     private SesameModel dataModel;
-    private float rAngle = 220/32;
+    private float rAngle = 6.1f;//222/32
     private int mItemcount = 6;//将表盘分成6份
     private int progressRaduis;
     private int topHeight;
@@ -43,10 +43,10 @@ public class PanelView extends View {
     private Paint progressPaint;
     private Paint colorPaint;//颜色画笔
     private int color[] = {Color.rgb(102,238,70),Color.rgb(226,246,63),Color.rgb(227,151,75),Color.rgb(255,2,26),Color.rgb(133,13,85),Color.rgb(112,4,36)};
-    private float panelStroke = 20;
+    private float panelStroke = 30;
     private float progressStroke = 5;
-    private float startAngle = 160;
-    private float sweepAngle = 220;
+    private float startAngle = 158;
+    private float sweepAngle = 222;
     private int centerX;
     private int centerY;
     private PanelItemModel model;
@@ -107,7 +107,7 @@ public class PanelView extends View {
         dataModel.setUpdateTime("2017-6-16");
         dataModel.setTotalMax(500);
         dataModel.setTotalMin(0);
-        dataModel.setAQI_value(122);
+        dataModel.setAQI_value(199);
 
         panelPaint = new Paint();
         panelPaint.setAntiAlias(true);
@@ -159,7 +159,7 @@ public class PanelView extends View {
             endPanel.setEndSweepValue(dataModel.getAQI_value());//扫描结束过程对应的值
 
             progressAnimator = ValueAnimator.ofObject(new CreditEvaluator(), startPanel, endPanel);
-            progressAnimator.setDuration(2000);
+            progressAnimator.setDuration(1500);
             progressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -203,10 +203,9 @@ public class PanelView extends View {
             colorPaint.setColor(color[i]);
             canvas.drawArc(panelRectF, startAngle + 37 * i, 37, false, colorPaint);
         }
-
         canvas.save();
-        //此处将画布旋转-110度。使画布Y轴（垂直）对称。
-        canvas.rotate(-110, centerX, centerY);
+        //此处将画布旋转-111度。使画布Y轴（垂直）对称。
+        canvas.rotate(-111, centerX, centerY);
         drawNumText(canvas);
         canvas.restore();
         drawText(canvas);
@@ -286,20 +285,29 @@ public class PanelView extends View {
         ArrayList<PanelItemModel> list = dataModel.getPanelItemModels();
         int aqi_value = dataModel.getAQI_value();
         float progressAngle = 0;
-        for (int i = 0; i < list.size(); i++) {
-            if (aqi_value > list.get(i).getMax()) {//如果AQI值大于当前区域的最大值
-                progressAngle += mItemcount * rAngle;
-                continue;
+        if(aqi_value%50 == 0 && aqi_value <= 200){
+            progressAngle = 37*(aqi_value/50);
+        }else if(aqi_value == 300){
+            progressAngle = 37*5;
+        }else if(aqi_value == 500){
+            progressAngle = 37*6;
+        }else{
+            for (int i = 0; i < list.size(); i++) {
+                if (aqi_value > list.get(i).getMax()) {//如果AQI值大于当前区域的最大值
+//                    progressAngle += mItemcount * rAngle;
+                    progressAngle += 37;
+                    continue;
+                }
+                int blance = aqi_value - list.get(i).getMin();
+                float areaItem = (list.get(i).getMax() - list.get(i).getMin()) / mItemcount;
+                progressAngle += (blance / areaItem) * rAngle;
+                if (blance % areaItem != 0) {
+                    blance -= (blance / areaItem) * areaItem;
+                    float percent = (blance / areaItem);
+                    progressAngle += (int) (percent * rAngle);
+                }
+                break;
             }
-            int blance = aqi_value - list.get(i).getMin();
-            float areaItem = (list.get(i).getMax() - list.get(i).getMin()) / mItemcount;
-            progressAngle += (blance / areaItem) * rAngle;
-            if (blance % areaItem != 0) {
-                blance -= (blance / areaItem) * areaItem;
-                float percent = (blance / areaItem);
-                progressAngle += (int) (percent * rAngle);
-            }
-            break;
         }
         return progressAngle;
     }
@@ -317,7 +325,7 @@ public class PanelView extends View {
             float sesameSweepAngle = startSweepAngle + fraction * (endSweepAngle - startSweepAngle);
             //计算出来进度条变化时变化的角度
             resultPanel.setSesameSweepAngle(sesameSweepAngle);
-            //开始扫描的值,为起始刻度350
+            //开始扫描的值,为起始刻度0
             float startSweepValue = startPanel.getStartSweepValue();
             //结束扫描的值,为污染指数值
             float endSweepValue = endPanel.getEndSweepValue();
