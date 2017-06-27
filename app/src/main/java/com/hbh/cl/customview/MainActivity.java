@@ -12,7 +12,9 @@ import android.widget.LinearLayout;
 
 import com.hbh.cl.customview.View.ClockView;
 import com.hbh.cl.customview.View.PanelView;
+import com.hbh.cl.customview.View.PanelViewTwo;
 import com.hbh.cl.customview.View.SpeedView;
+import com.hbh.cl.customview.model.SesameModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,9 +40,15 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-//        drawCircle();//绘制表盘
+//        drawCircle();//绘制钟表
 //        drawSpeedView();
-        drawPanelView();
+//        drawPanelView();
+        drawPanelViewTwo();
+    }
+
+    public void drawPanelViewTwo(){
+        PanelViewTwo panelViewTwo = new PanelViewTwo(this);
+        greadView_layout.addView(panelViewTwo);
     }
 
     public void drawPanelView(){
@@ -54,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 绘制表盘
+     * 绘制钟表
      */
     public void drawCircle(){
         ClockView clockView = new ClockView(this);

@@ -31,8 +31,8 @@
 
     <LinearLayout
         android:id="@+id/greadView"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:orientation="horizontal"
         android:layout_centerInParent="true">
     </LinearLayout>
