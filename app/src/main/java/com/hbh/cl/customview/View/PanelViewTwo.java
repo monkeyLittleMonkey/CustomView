@@ -112,15 +112,14 @@ public class PanelViewTwo extends View {
         dataModel = new SesameModel();
         dataModel.setPanelItemModels(list);
         dataModel.setFirstText("AQI指数");
-        dataModel.setLevel("良");
+        dataModel.setLevel("轻度污染");
         dataModel.setUpdateTime("06-27 15时");
         dataModel.setTotalMax(500);
         dataModel.setTotalMin(0);
-        dataModel.setAQI_value(180);
+        dataModel.setAQI_value(120);
 
         if (dataModel.getLevel().equals("--")) {
             progressPaintColor = Color.rgb(255,255,255);
-            drawable = drawables[0];
         } else if (dataModel.getLevel().equals("优")) {
             drawable = drawables[0];
             progressPaintColor = Color.rgb(102,238,70);
@@ -261,13 +260,11 @@ public class PanelViewTwo extends View {
         panelTextPaint.setFakeBoldText(false);
         panelTextPaint.getTextBounds(text, 0, text.length(), rect);
         drawTextY = drawTextY + rect.height() + textSpace;
-        canvas.drawText(text, centerX - rect.width() / 2, drawTextY, panelTextPaint);
-
-        Log.i("AAAAAAAAAA", rect.width()+"");
-
-        Bitmap bitmap = ((BitmapDrawable)getResources().getDrawable(drawable)).getBitmap();
-        canvas.drawBitmap(bitmap,centerX - rect.width()/2 - rect.width()/text.length() , drawTextY - rect.height(), panelTextPaint);
-
+        canvas.drawText(text, centerX - rect.width()/2, drawTextY, panelTextPaint);
+        if (!text.equals("--")) {
+            Bitmap bitmap = ((BitmapDrawable)getResources().getDrawable(drawable)).getBitmap();
+            canvas.drawBitmap(bitmap,centerX - rect.width()/2 - rect.width()/text.length() - 20 , drawTextY - rect.height(), panelTextPaint);
+        }
         text = dataModel.getUpdateTime();
         panelTextPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
         panelTextPaint.setColor(Color.WHITE);
