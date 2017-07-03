@@ -4,7 +4,6 @@ import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,7 +11,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -39,10 +37,10 @@ public class PanelViewTwo extends View {
     private ValueAnimator progressAnimator;
     private SesameModel dataModel;
     private float rAngle = 6.1f;//222/32
-    private int mItemcount = 6;//将表盘分成6份
+    private int mItemcount = 6;//将表盘每个区域分成6份
     private int progressRaduis;
     private int topHeight;
-    private String sesameJiFen;
+    private String sesameAQI;
     private Paint panelPaint;
     private Paint panelTextPaint;
     private Paint progressPaint;
@@ -175,7 +173,7 @@ public class PanelViewTwo extends View {
             topHeight = (w / 2) * 3 / 10;
             centerX = viewWidth / 2;
             centerY = viewHeight / 2;
-            sesameJiFen = String.valueOf(dataModel.getTotalMin());
+            sesameAQI = String.valueOf(dataModel.getTotalMin());
 
             progressTotalSweepAngle = computeProgressAngle();
             Panel startPanel = new Panel();
@@ -194,7 +192,7 @@ public class PanelViewTwo extends View {
                     Panel panel = (Panel) animation.getAnimatedValue();
                     //更新进度值
                     progressSweepAngle = panel.getSesameSweepAngle();
-                    sesameJiFen = String.valueOf(panel.getSesameSweepValue());
+                    sesameAQI = String.valueOf(panel.getSesameSweepValue());
                     invalidate();
                 }
             });
@@ -246,7 +244,7 @@ public class PanelViewTwo extends View {
         drawTextY = centerY - panelRectF.height() / 2 * 0.45f;
         canvas.drawText(text, centerX - rect.width() / 2, drawTextY, panelTextPaint);
 
-        text = sesameJiFen;
+        text = sesameAQI;
         panelTextPaint.setTextSize(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 34, getResources().getDisplayMetrics()));
         panelTextPaint.setColor(Color.WHITE);
         panelTextPaint.setFakeBoldText(true);
@@ -290,7 +288,6 @@ public class PanelViewTwo extends View {
         }else{
             for (int i = 0; i < list.size(); i++) {
                 if (aqi_value > list.get(i).getMax()) {//如果AQI值大于当前区域的最大值
-//                    progressAngle += mItemcount * rAngle;
                     progressAngle += 45;
                     continue;
                 }
